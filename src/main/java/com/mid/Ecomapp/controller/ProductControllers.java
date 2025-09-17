@@ -27,10 +27,18 @@ public class ProductControllers {
         return productService.getProductByID(id);
     }
 
-   @GetMapping("/all")
-    public List<Product> findAll(){
-        return productService.getProducts();
-   }
+  @GetMapping("/products/all")
+public ResponseEntity<?> getAllProducts() {
+    try {
+        List<Product> products = productService.getAllProducts();
+        return ResponseEntity.ok(products);
+    } catch (Exception e) {
+        e.printStackTrace(); // will show in Render logs
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Error: " + e.getMessage());
+    }
+}
+
 
    @PutMapping("/")
     public Product updateProduct(@RequestBody Product product,String id){
